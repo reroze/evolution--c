@@ -1,0 +1,2 @@
+void newg(); 
+#pragma once
