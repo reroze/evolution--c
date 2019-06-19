@@ -47,16 +47,16 @@ float jiancha()
 
 void guzhi_xuanze();
 
-void guzhi_xuanze()
+void guzhi_xuanze()//生成选择阈值
 {
 	int count = 0;
 	float ceshi = 0;
-	max_guzhi = find_max(swarm_guzhi);
-	min_guzhi = find_min(swarm_guzhi);
-	xuanze_guzhi = min_guzhi + (max_guzhi - min_guzhi)*rand() / (RAND_MAX);
-	ceshi = jiancha();
+	max_guzhi = find_max(swarm_guzhi);//找到种群中的最大估值
+	min_guzhi = find_min(swarm_guzhi);//找到种群中的最小估值
+	xuanze_guzhi = min_guzhi + (max_guzhi - min_guzhi)*rand() / (RAND_MAX);//随机生成一个在最大最小估值之间的一个阈值
+	ceshi = jiancha();//测试阈值的合理性
 
-	while (ceshi < 0.005 || ceshi>0.8)
+	while (ceshi < 0.005 || ceshi>0.8)//不允许种群剧烈的改变和初期（未收敛）的基本不变
 	{
 		xuanze_guzhi = min_guzhi + (max_guzhi - min_guzhi)*rand() / (RAND_MAX);
 		ceshi = jiancha();
@@ -71,7 +71,7 @@ void guzhi_xuanze()
 			printf("$%f\t", max_guzhi);
 			printf("$%f\t", min_guzhi);
 			printf("$%f\t", ceshi);
-			cishu = count;
+			cishu = count;//若未达到收敛条件就整体收敛，则该种群生成失败（整体估值偏低）
 			printf("%d\n", count);
 			break;
 			//system("pause");
@@ -82,13 +82,13 @@ void guzhi_xuanze()
 }
 
 void swarm_xuanze();
-void swarm_xuanze()
+void swarm_xuanze()//自然选择函数
 {
 	guzhi_xuanze();
 	for (int i = 0; i < qun_number; i++)
 	{
 		if (swarm_guzhi[i] < xuanze_guzhi)
-			dead[i] = 1;
+			dead[i] = 1;//淘汰个体
 	}
 	/*for (int i = 0; i < qun_number; i++)
 	{

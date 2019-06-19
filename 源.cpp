@@ -35,9 +35,9 @@ void restart();
 void main()
 {
 	int times = 0;
-restart:
+restart://使用goto的种群淘汰措施
 	restart();
-	srand(time(NULL));
+	srand(time(NULL));//随机种子初始化
 	/*for (int j = 0; j < 10; j++)
 	{
 
@@ -56,27 +56,27 @@ restart:
 		printf("\n");
 	}
 
-	swarm_xuanze();
+	swarm_xuanze();//进行自然选择
 	printf("\n");
 	for (int i = 0; i < qun_number; i++)
 	{
-		printf("%2d", dead[i]);
+		printf("%2d", dead[i]);//查看死亡的种群个体
 		if ((i + 1) % 10 == 0)
 			printf("\n");
 	}
 	printf("%f", xuanze_guzhi);
-	max_guzhi_whole = max_guzhi;
+	max_guzhi_whole = max_guzhi;//记录本代种群的最大估值
 
-	int count = 0;
-	int dai = 0;
+	int count = 0;//收敛的次数
+	int dai = 0;//迭代总次数
 	while (count < 100)
 	{
-		newg();
+		newg();//新生代
 		for (int i = 0; i<qun_number; i++)
-			swarm_guzhi[i] = guzhi(swarm[i]);
-		swarm_xuanze();
+			swarm_guzhi[i] = guzhi(swarm[i]);//更新种群估值
+		swarm_xuanze();//再次自然选择
 		printf("%f", xuanze_guzhi);
-		if ((max_guzhi_whole - max_guzhi < 0.00001) && (max_guzhi_whole - max_guzhi>-0.00001))
+		if ((max_guzhi_whole - max_guzhi < 0.00001) && (max_guzhi_whole - max_guzhi>-0.00001))//如果满足收敛条件，则收敛次数+1
 		{
 			count++;
 			printf("the %d dai is:\n:", dai);
@@ -84,15 +84,15 @@ restart:
 			printf("$%d$", count);
 		}
 		if (max_guzhi > max_guzhi_whole)
-			max_guzhi_whole = max_guzhi;
-		dai++;
+			max_guzhi_whole = max_guzhi;//更新整体最大估值
+		dai++;//迭代次数+1
 		if (dai > max_diedai)
 			break;
-		if (cishu > 10000)
+		if (cishu > 10000)//如果种群生成失败
 		{
 			cishu = 0;
 			failure++;
-			goto restart;
+			goto restart;//从头再来
 		}
 
 		for (int i = 0; i < qun_number; i++)
@@ -108,7 +108,7 @@ restart:
 				{
 					printf("error stop");
 					printf("the %d is wrong", i);
-					for (int h = 0; h < length; h++)
+					for (int h = 0; h < length; h++)//检验繁殖时是否出错
 						printf("$%d$", swarm[i][h]);
 					system("pause");
 				}
@@ -125,7 +125,7 @@ restart:
 	}
 	printf("%f", xuanze_guzhi);
 
-	printf("the max is:%f", max_guzhi_whole);
+	printf("the max is:%f", max_guzhi_whole);//输出最优估值
 	printf("the failure times is %d", failure);
 
 	for (int i = 0; i < qun_number; i++)
@@ -135,7 +135,7 @@ restart:
 			printf("the path is ");
 			for (int j = 0; j < length; j++)
 			{
-				printf("%2d", swarm[i][j]);
+				printf("%2d", swarm[i][j]);//输出最优个体
 
 			}
 			break;
@@ -151,8 +151,8 @@ void restart()
 	max_guzhi = 0;
 	min_guzhi = 0;
 	xuanze_guzhi = 0;
-	gailv_jiaocha = 0.6;
-	gailv_bianyi = 0.1;
+	gailv_jiaocha = 1.0;
+	gailv_bianyi = 1.0;
 	max_guzhi_whole = 0;
 	
 	for (int i = 0; i < qun_number; i++)

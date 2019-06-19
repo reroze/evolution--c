@@ -3,7 +3,7 @@
 #include <string.h>
 #include "thedefine.h"
 
-void init()
+void init()//初始化种群
 {
 	for (int i = 0; i < length; i++)
 		swarm[0][i] = i;
@@ -19,7 +19,7 @@ void init()
 			left = rand() % length;
 			right = rand() % length;
 			temp = swarm[i][left];
-			swarm[i][left] = swarm[i][right];
+			swarm[i][left] = swarm[i][right];//随机交换5个值作为新个体
 			swarm[i][right] = temp;
 		}
 	}
